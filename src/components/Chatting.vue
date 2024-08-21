@@ -1,21 +1,37 @@
 <template>
   <div>
     <el-card class="chatBox" :body-style="{ padding: '0px' }">
-      <div class="loginChat" v-if="!isEnter">
+      <!-- <div class="loginChat" v-if="!isEnter">
         <img :src="avatar" alt="" />
         <span>{{ username }}</span>
         <button @click="loginChat">进入聊天室</button>
       </div>
-      <room
-        v-else
-        :user="user"
-        :userList="userList"
-        ref="chatroom"
-        @sendServer="sendServer"
-        @handleFile="handleFile"
-        @activeSid="activeSid"
-      />
+      <room v-else :user="user" :userList="userList" ref="chatroom" @sendServer="sendServer" @handleFile="handleFile" @activeSid="activeSid" /> -->
+      <room v-if="isEnter" :user="user" :userList="userList" ref="chatroom" @sendServer="sendServer" @handleFile="handleFile" @activeSid="activeSid" />
     </el-card>
+    <div class="avatar">
+      <el-avatar :size="70" :src="avatar" @click.native="UserInfo1"></el-avatar>
+      <div class="UserInfo">
+        <ul>
+          <li>
+            <span>当前登录用户:</span>
+            <span class="loginName">{{ username }}</span>
+          </li>
+          <li @click="UserInfo1">
+            <i class="iconfont">&#xe61d;</i>个人资料
+          </li>
+          <li @click="UserInfo2">
+            <i class="iconfont">&#xe66d;</i>账号安全
+          </li>
+          <li @click="UserInfo3">
+            <i class="iconfont">&#xe646;</i>我的消息
+          </li>
+          <li @click="loginOut">
+            <i class="iconfont">&#xe71e;</i>退出登录
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,6 +66,12 @@ export default {
      */
     // 连接服务器
     this.socket = io(this.$apiServer);
+    // 进入页面直接登录聊天室
+    this.socket.emit("login", {
+      id: this.uid,
+      username: this.username,
+      avatar: this.avatar,
+    });
     // 监听登录失败的请求
     this.socket.on("userExit", (data) => this.$message.error(data.msg));
     // 监听登录成功的请求
@@ -120,14 +142,22 @@ export default {
       if (isGroup) {
         this.socket.emit("sendMessage", { username, avatar, msg: content });
       } else {
-        this.socket.emit("oneMessage", {
-          username,
-          avatar,
-          sid,
-          tosid,
-          msg: content,
-        });
+        this.socket.emit("oneMessage", { username, avatar, sid, tosid, msg: content, });
       }
+    },
+    loginOut() {
+      window.sessionStorage.clear();
+      this.$message.success("退出登录成功");
+      this.$router.push("/login");
+    },
+    UserInfo1() {
+      this.$router.push("/userinfo/1");
+    },
+    UserInfo2() {
+      this.$router.push("/userinfo/2");
+    },
+    UserInfo3() {
+      this.$router.push("/userinfo/3");
     },
   },
 };
@@ -184,6 +214,74 @@ export default {
     border: none;
     border-radius: 50px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+}
+// 头像
+.avatar {
+  position: relative;
+  .el-avatar {
+    border: 2px #eee solid;
+    z-index: 999;
+    margin-top: 10px;
+    position: relative;
+    cursor: pointer;
+  }
+}
+.el-avatar:hover + .UserInfo {
+  animation: show 0.7s forwards;
+}
+.UserInfo:hover {
+  height: 300px;
+}
+@keyframes show {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 300px;
+  }
+}
+.UserInfo {
+  position: absolute;
+  left: -50px;
+  top: 70px;
+  height: 0;
+  overflow: hidden;
+  width: 170px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  background-color: #fff;
+  z-index: 99;
+  ul {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      font-size: 16px;
+      border-top: 1px #eee solid;
+      padding-top: 14px;
+      text-align: center;
+      color: purple;
+      width: 100%;
+      cursor: pointer;
+      i {
+        margin-right: 8px;
+      }
+      span {
+        display: block;
+        cursor: auto;
+      }
+      .loginName {
+        font-size: 24px;
+        color: orange;
+        margin: 0 auto;
+      }
+    }
   }
 }
 </style>

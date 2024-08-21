@@ -20,6 +20,7 @@ import Scenery from '../components/MusicPhoto/Scenery.vue'
 import Cartoon from '../components/MusicPhoto/Cartoon.vue'
 import Beauty from '../components/MusicPhoto/Beauty.vue'
 import Pets from '../components/MusicPhoto/Pets.vue'
+import ChattingRoomNew from '../components/ChattingRoomNew.vue'
 
 //解决vue重复点击路由报错
 const originalPush = Router.prototype.push
@@ -29,94 +30,115 @@ Router.prototype.push = function push(location) {
 
 Vue.use(Router)
 
-const routes = [{
+// const routes = [{
+//     path: '/',
+//     component: Home,
+//     meta: {
+//       requireAuth: false
+//     },
+//     children: [{
+//         path: '/',
+//         meta: {
+//           requireAuth: false
+//         },
+//         component: HomeMain
+//       }, {
+//         path: '/userinfo',
+//         component: UserInfo,
+//         meta: {
+//           requireAuth: true
+//         },
+//         children: [{
+//           path: '/userinfo/1',
+//           component: MyInfo,
+//           meta: {
+//             requireAuth: true
+//           },
+//         }, {
+//           path: '/userinfo/2',
+//           component: Account,
+//           meta: {
+//             requireAuth: true
+//           },
+//         }, {
+//           path: '/userinfo/3',
+//           component: MyMessage,
+//           meta: {
+//             requireAuth: true
+//           },
+//         }]
+//       }, {
+//         path: '/dynamic',
+//         component: Dynamic,
+//         meta: {
+//           requireAuth: false
+//         }
+//       }, {
+//         path: '/chatting',
+//         component: Chatting,
+//         meta: {
+//           requireAuth: true
+//         }
+//       }, {
+//         path: '/find',
+//         component: MusicRoom,
+//         meta: {
+//           requireAuth: false
+//         }
+//       },
+//       {
+//         path: '/music',
+//         component: Music,
+//         meta: {
+//           requireAuth: false
+//         }
+//       }, {
+//         path: '/scenery',
+//         component: Scenery,
+//         meta: {
+//           requireAuth: false
+//         }
+//       }, {
+//         path: '/pets',
+//         component: Pets,
+//         meta: {
+//           requireAuth: false
+//         }
+//       }, {
+//         path: '/cartoon',
+//         component: Cartoon,
+//         meta: {
+//           requireAuth: false
+//         }
+//       }, {
+//         path: '/beauty',
+//         component: Beauty,
+//         meta: {
+//           requireAuth: false
+//         }
+//       }
+//     ]
+//   },
+//   {
+//     path: '/login',
+//     component: Login,
+//     meta: {
+//       requireAuth: false
+//     }
+//   },
+//   {
+//     path: '/register',
+//     component: Register,
+//     meta: {
+//       requireAuth: false
+//     }
+//   }
+// ]
+
+const routes = [
+  {
     path: '/',
-    component: Home,
-    meta: {
-      requireAuth: false
-    },
-    children: [{
-        path: '/',
-        meta: {
-          requireAuth: false
-        },
-        component: HomeMain
-      }, {
-        path: '/userinfo',
-        component: UserInfo,
-        meta: {
-          requireAuth: true
-        },
-        children: [{
-          path: '/userinfo/1',
-          component: MyInfo,
-          meta: {
-            requireAuth: true
-          },
-        }, {
-          path: '/userinfo/2',
-          component: Account,
-          meta: {
-            requireAuth: true
-          },
-        }, {
-          path: '/userinfo/3',
-          component: MyMessage,
-          meta: {
-            requireAuth: true
-          },
-        }]
-      }, {
-        path: '/dynamic',
-        component: Dynamic,
-        meta: {
-          requireAuth: false
-        }
-      }, {
-        path: '/chatting',
-        component: Chatting,
-        meta: {
-          requireAuth: true
-        }
-      }, {
-        path: '/find',
-        component: MusicRoom,
-        meta: {
-          requireAuth: false
-        }
-      },
-      {
-        path: '/music',
-        component: Music,
-        meta: {
-          requireAuth: false
-        }
-      }, {
-        path: '/scenery',
-        component: Scenery,
-        meta: {
-          requireAuth: false
-        }
-      }, {
-        path: '/pets',
-        component: Pets,
-        meta: {
-          requireAuth: false
-        }
-      }, {
-        path: '/cartoon',
-        component: Cartoon,
-        meta: {
-          requireAuth: false
-        }
-      }, {
-        path: '/beauty',
-        component: Beauty,
-        meta: {
-          requireAuth: false
-        }
-      }
-    ]
+    redirect: '/login',
   },
   {
     path: '/login',
@@ -131,7 +153,48 @@ const routes = [{
     meta: {
       requireAuth: false
     }
-  }
+  },
+  {
+    path: '/chatting',
+    component: Chatting,
+    meta: {
+      requireAuth: true  // 聊天室需要登录
+    }
+  },
+  {
+    // 调试新的聊天室页面的路由
+    path: '/chat',
+    component: ChattingRoomNew,
+    meta: {
+      requireAuth: true  // 聊天室需要登录
+    }
+  },
+  {
+    path: '/userinfo',
+    component: UserInfo,
+    meta: {
+      requireAuth: true
+    },
+    children: [{
+      path: '/userinfo/1',
+      component: MyInfo,
+      meta: {
+        requireAuth: true
+      },
+    }, {
+      path: '/userinfo/2',
+      component: Account,
+      meta: {
+        requireAuth: true
+      },
+    }, {
+      path: '/userinfo/3',
+      component: MyMessage,
+      meta: {
+        requireAuth: true
+      },
+    }]
+  },
 ]
 
 const router = new Router({
