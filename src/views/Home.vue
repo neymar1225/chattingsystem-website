@@ -36,11 +36,7 @@
           <el-button type="warning" @click="Register">注册</el-button>
         </div>
         <div class="avatar" v-else>
-          <el-avatar
-            :size="70"
-            :src="avatar"
-            @click.native="UserInfo1"
-          ></el-avatar>
+          <el-avatar :size="70" :src="avatar" click.native="UserInfo1" ></el-avatar>
           <div class="userInfo">
             <ul>
               <li>
