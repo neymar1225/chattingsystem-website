@@ -2,6 +2,7 @@
   <div class="body">
       <div class="box">
           <div class="left">
+            
               <img src="../assets/picture/cat.png" alt="背景图" height="300px">
           </div>
           <div class="right">
@@ -60,8 +61,8 @@ export default {
           loginWay: "邮箱",
           isUser: true,
           loginForm: {
-              username: "",
-              password: "",
+              username: "root",
+              password: "654321",
               email: "",
           },
       };
