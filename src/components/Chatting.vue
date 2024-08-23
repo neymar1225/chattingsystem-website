@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import Room from "./ChatRoom";
+import Room from "./ChattingRoomNew";
 //引入socket.io-client
 import io from "socket.io-client";
 export default {
@@ -76,6 +76,7 @@ export default {
     this.socket.on("userExit", (data) => this.$message.error(data.msg));
     // 监听登录成功的请求
     this.socket.on("loginSuccess", (data) => {
+      console.log('loginSuccess',data);
       this.$message.success(data.msg);
       this.user = data;
       this.isEnter = true;
