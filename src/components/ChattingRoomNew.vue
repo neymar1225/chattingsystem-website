@@ -441,7 +441,7 @@ export default {
         }
     }
 }
-
+ 
 
 .roomRight {
     flex: 1;
